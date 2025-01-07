@@ -2,9 +2,8 @@
 
 import { useEffect, useState } from "react";
 import { Task } from "../lib/notion";
-import NavBar from "@/components/NavBar";
-import TaskCard from "@/components/TaskCard"; // Import TaskCard
-import { AlertCircle } from "lucide-react";
+import TaskCard from "@/components/TaskCard";
+import { AlertCircle, Plus, ListTodo } from "lucide-react";
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
@@ -52,59 +51,67 @@ export default function Home() {
     );
     setEditTaskId(null);
   };
-/*
-  const deleteTask = (id: string) => {
-    setTasks((prev) => prev.filter((task) => task.id !== id));
-  };
-  */
 
   return (
-    <div className="min-h-screen bg-zinc-50 dark:bg-zinc-900">
-      <div className="container mx-auto max-w-4xl p-8 space-y-8">
-        <NavBar />
-
-        {/* Header */}
-        <div className="bg-white dark:bg-zinc-800 rounded-3xl border border-zinc-200 dark:border-zinc-700 shadow-lg p-8">
-          <h1 className="text-3xl font-medium text-zinc-900 dark:text-zinc-100">Pomodoro Tasks</h1>
-        </div>
-
-        {/* Content */}
-        <div className="bg-white dark:bg-zinc-800 rounded-3xl border border-zinc-200 dark:border-zinc-700 shadow-lg p-8">
-          {loading ? (
-            <div className="text-center py-12">
-              <div className="animate-spin w-12 h-12 border-4 border-zinc-400 dark:border-zinc-500 border-t-transparent rounded-full mx-auto" />
-              <p className="mt-4 text-zinc-500 dark:text-zinc-400 font-medium">Loading your tasks...</p>
+    <div className=" bg-zinc-50 dark:bg-zinc-900">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col py-8">
+          {/* Header Section */}
+          <header className="mb-8 flex items-center justify-between">
+            <div className="flex items-center space-x-3">
+              <div className="rounded-lg bg-zinc-100 p-2 dark:bg-zinc-800">
+                <ListTodo className="h-6 w-6 text-zinc-500 dark:text-zinc-400" />
+              </div>
+              <h1 className="text-2xl font-semibold text-zinc-900 dark:text-zinc-50">
+                Pomodoro Tasks
+              </h1>
             </div>
-          ) : error ? (
-            <div className="text-center py-12 space-y-4">
-              <AlertCircle className="w-12 h-12 text-zinc-400 dark:text-zinc-500 mx-auto" />
-              <div className="text-zinc-500 dark:text-zinc-400 font-medium">{error}</div>
-            </div>
-          ) : tasks.length === 0 ? (
-            <div className="text-center py-12">
-              <p className="text-zinc-500 dark:text-zinc-400 font-medium">No tasks found. Add tasks to get started!</p>
-            </div>
-          ) : (
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {tasks.map((task) => (
-              <TaskCard
-                key={task.id}
-                task={task}
-                editTaskId={editTaskId}
-                setEditTaskId={setEditTaskId}
-                editTaskName={editTaskName}
-                setEditTaskName={setEditTaskName}
-                editTaskDueDate={editTaskDueDate}
-                setEditTaskDueDate={setEditTaskDueDate}
-                editTaskPriority={editTaskPriority}
-                setEditTaskPriority={setEditTaskPriority}
-                editTaskStatus={editTaskStatus}
-                setEditTaskStatus={setEditTaskStatus}
-                updateTask={updateTask}
-              />
-            ))}
-          </div>
-          )}
+          </header>
+  
+          {/* Main Content */}
+          <main className="flex-1">
+            {loading ? (
+              <div className="flex h-64 flex-col items-center justify-center space-y-4 rounded-xl border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-800/50">
+                <div className="h-8 w-8 animate-spin rounded-full border-3 border-zinc-200 border-t-zinc-500 dark:border-zinc-700 dark:border-t-zinc-300" />
+                <p className="text-sm text-zinc-500 dark:text-zinc-400">Loading your tasks...</p>
+              </div>
+            ) : error ? (
+              <div className="flex h-64 flex-col items-center justify-center space-y-4 rounded-xl border border-red-200 bg-white dark:border-red-900/50 dark:bg-red-900/10">
+                <AlertCircle className="h-8 w-8 text-red-500 dark:text-red-400" />
+                <p className="text-sm font-medium text-red-500 dark:text-red-400">{error}</p>
+              </div>
+            ) : tasks.length === 0 ? (
+              <div className="flex h-64 flex-col items-center justify-center space-y-4 rounded-xl border border-zinc-200 bg-white dark:border-zinc-800 dark:bg-zinc-800/50">
+                <div className="rounded-full bg-zinc-100 p-3 dark:bg-zinc-800">
+                  <Plus className="h-6 w-6 text-zinc-500 dark:text-zinc-400" />
+                </div>
+                <div className="text-center">
+                  <p className="text-sm font-medium text-zinc-900 dark:text-zinc-100">No tasks yet</p>
+                  <p className="mt-1 text-sm text-zinc-500 dark:text-zinc-400">Create your first task to get started</p>
+                </div>
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                {tasks.map((task) => (
+                  <TaskCard
+                    key={task.id}
+                    task={task}
+                    editTaskId={editTaskId}
+                    setEditTaskId={setEditTaskId}
+                    editTaskName={editTaskName}
+                    setEditTaskName={setEditTaskName}
+                    editTaskDueDate={editTaskDueDate}
+                    setEditTaskDueDate={setEditTaskDueDate}
+                    editTaskPriority={editTaskPriority}
+                    setEditTaskPriority={setEditTaskPriority}
+                    editTaskStatus={editTaskStatus}
+                    setEditTaskStatus={setEditTaskStatus}
+                    updateTask={updateTask}
+                  />
+                ))}
+              </div>
+            )}
+          </main>
         </div>
       </div>
     </div>

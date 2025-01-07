@@ -1,9 +1,8 @@
 "use client";
-
 import React from "react";
-import { Calendar } from "lucide-react";
+import { Calendar, ChevronRight } from "lucide-react";
 import Link from "next/link";
-import { Task } from "@/lib/notion"; // Corrected import path
+import { Task } from "@/lib/notion";
 
 interface TaskCardProps {
   task: Task;
@@ -28,7 +27,11 @@ interface TaskCardProps {
 
 const formatDate = (dateString: string): string => {
   if (!dateString) return "No due date";
-  const options: Intl.DateTimeFormatOptions = { month: "short", day: "numeric", year: "numeric" };
+  const options: Intl.DateTimeFormatOptions = {
+    month: "short",
+    day: "numeric",
+    year: "numeric"
+  };
   return new Date(dateString).toLocaleDateString(undefined, options);
 };
 
@@ -36,40 +39,67 @@ const TaskCard: React.FC<TaskCardProps> = ({ task }) => {
   const name = task.Name || "";
   const dueDate = task.DueDate || "No due date";
   const priority = task.Priority || "Medium";
+  const status = task.Status || "Not Started";
 
-  const getPriorityColor = () => {
+  const getPriorityStyle = () => {
     switch (priority) {
       case "High":
-        return "text-red-600 dark:text-red-400";
+        return "font-medium text-zinc-900 dark:text-zinc-100";
       case "Medium":
-        return "text-yellow-600 dark:text-yellow-400";
+        return "font-normal text-zinc-700 dark:text-zinc-300";
       case "Low":
-        return "text-green-600 dark:text-green-400";
+        return "font-normal text-zinc-500 dark:text-zinc-400";
       default:
-        return "text-zinc-600 dark:text-zinc-400";
+        return "font-normal text-zinc-500 dark:text-zinc-400";
+    }
+  };
+
+  const getStatusDot = () => {
+    switch (status.toLowerCase()) {
+      case "completed":
+        return "bg-green-500";
+      case "in progress":
+        return "bg-zinc-400";
+      default:
+        return "bg-zinc-200 dark:bg-zinc-700";
     }
   };
 
   return (
-    <Link href={`/session/${task.id}`}>
-      <div className="bg-white dark:bg-zinc-900 rounded-3xl p-6 h-52 border border-zinc-100 dark:border-zinc-800 shadow-lg flex flex-col justify-between transition-all duration-300 hover:scale-[1.02] hover:shadow-xl">
-        <div className="space-y-4">
-          <h3 className="text-xl font-medium text-zinc-700 dark:text-zinc-300 truncate">
+    <div className="group relative rounded-lg border border-zinc-100 bg-white transition-all duration-200 hover:border-zinc-200 hover:shadow-sm dark:border-zinc-800 dark:bg-zinc-900 dark:hover:border-zinc-700">
+      <div className="p-4">
+        {/* Task header */}
+        <div className="mb-4 flex items-center justify-between">
+          <h3 className={`line-clamp-1 text-base ${getPriorityStyle()}`}>
             {name}
           </h3>
-          <div className="flex items-center space-x-2 text-sm text-zinc-500 dark:text-zinc-400">
-            <Calendar className="w-4 h-4" />
-            <span>{formatDate(dueDate)}</span>
+          <ChevronRight className="h-4 w-4 text-zinc-300 opacity-0 transition-opacity duration-200 group-hover:opacity-100 dark:text-zinc-600" />
+        </div>
+
+        {/* Status and date row */}
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <div className={`h-2 w-2 rounded-full ${getStatusDot()}`} />
+            <span className="text-xs text-zinc-500 dark:text-zinc-400">
+              {status}
+            </span>
+          </div>
+          
+          <div className="flex items-center text-xs text-zinc-400 dark:text-zinc-500">
+            <Calendar className="mr-1.5 h-3.5 w-3.5" />
+            {formatDate(dueDate)}
           </div>
         </div>
-        
-        <div className="flex items-center justify-between">
-          <span className={`text-sm font-medium ${getPriorityColor()}`}>
-            {priority} Priority
-          </span>
-        </div>
       </div>
-    </Link>
+
+      {/* Clickable overlay */}
+      <Link
+        href={`/session/${task.id}`}
+        className="absolute inset-0 rounded-lg ring-offset-2 focus:outline-none focus:ring-1 focus:ring-zinc-400 dark:focus:ring-zinc-500"
+      >
+        <span className="sr-only">View task details</span>
+      </Link>
+    </div>
   );
 };
 

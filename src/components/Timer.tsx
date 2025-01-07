@@ -136,8 +136,8 @@ const Timer: React.FC<TimerProps> = ({
   };
 
   return (
-    <div className="mx-auto space-y-8">
-      <div className="relative bg-white dark:bg-zinc-900 rounded-3xl p-12 shadow-lg border border-zinc-100 space-y-8 dark:border-zinc-800">
+    <div className="mx-auto space-y-6 md:space-y-8">
+      <div className="relative bg-white dark:bg-zinc-900 rounded-3xl p-8 md:p-12 shadow-lg border border-zinc-100 dark:border-zinc-800 space-y-6 md:space-y-8">
         {/* Timer Settings Button */}
         <div className="absolute top-4 right-4">
           <button

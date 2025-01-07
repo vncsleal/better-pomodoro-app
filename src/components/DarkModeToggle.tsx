@@ -29,7 +29,7 @@ export default function DarkModeToggle() {
       className="
         z-50
         w-10 h-10
-        bg-white dark:bg-zinc-800
+       bg-zinc-50 dark:bg-zinc-900
         rounded-full
         flex items-center justify-center
         transition-all duration-300

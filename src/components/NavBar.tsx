@@ -5,8 +5,8 @@ import DarkModeToggle from './DarkModeToggle';
 
 const NavBar: React.FC = () => {
     return (
-        <nav className="bg-white/80  backdrop-blur-xl border-b rounded-full border-zinc-200 dark:border-zinc-800 dark:bg-zinc-800/80">
-            <div className="container flex justify-between items-center mx-auto max-w-4xl px-4 py-4 ">
+        <nav className="bg-zinc-50 dark:bg-zinc-900 mx-auto rounded-full border-zinc-200 dark:border-zinc-800 ">
+            <div className="container flex justify-between items-center mx-auto max-w-7xl p-4 ">
             <div></div>
                 <div className="flex items-center justify-center">
                 
